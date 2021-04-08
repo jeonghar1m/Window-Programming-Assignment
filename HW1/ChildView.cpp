@@ -72,7 +72,8 @@ void CChildView::OnPaint()
 
 	if (m_LButtonDown)
 	{
-		CBrush brush(RGB(255, 0, 0));
+		bitmap.LoadBitmap(IDB_BITMAP1);
+		CBrush brush(&bitmap);
 		memDC.SelectObject(&brush);
 		memDC.Rectangle(m_StartPoint.x, m_StartPoint.y, m_EndPoint.x, m_EndPoint.y);
 	}
