@@ -39,23 +39,23 @@ END_MESSAGE_MAP()
 
 // CChildView 메시지 처리기
 
-BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	if (!CWnd::PreCreateWindow(cs))
 		return FALSE;
 
 	cs.dwExStyle |= WS_EX_CLIENTEDGE;
 	cs.style &= ~WS_BORDER;
-	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS, 
-		::LoadCursor(nullptr, IDC_ARROW), reinterpret_cast<HBRUSH>(COLOR_WINDOW+1), nullptr);
+	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,
+		::LoadCursor(nullptr, IDC_ARROW), reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1), nullptr);
 
 	return TRUE;
 }
 
-void CChildView::OnPaint() 
+void CChildView::OnPaint()
 {
 	CPaintDC dc(this); // 그리기를 위한 디바이스 컨텍스트입니다.
-	
+
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 
 	CRect rect;
@@ -68,7 +68,7 @@ void CChildView::OnPaint()
 	bitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
 	memDC.SelectObject(&bitmap);
 
-	memDC.Rectangle(-10, -10, rect.Width() + 10, rect.Height() + 10);
+	memDC.Rectangle(-10, -10, rect.Width() + 10, rect.Height() + 10);	//하얀색 배경 화면 출력
 
 	if (m_LButtonDown)
 	{
@@ -85,7 +85,7 @@ void CChildView::OnPaint()
 	}
 
 	dc.BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
-	
+
 	// 그리기 메시지에 대해서는 CWnd::OnPaint()를 호출하지 마십시오.
 }
 
