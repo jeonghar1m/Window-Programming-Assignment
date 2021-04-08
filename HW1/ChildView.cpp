@@ -16,6 +16,8 @@
 
 CChildView::CChildView()
 {
+	m_LButtonDown = false;
+	m_RButtonDown = false;
 }
 
 CChildView::~CChildView()
@@ -99,31 +101,30 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 
+void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	m_RButtonDown = true;
+	m_StartPoint = point;
+
+	CWnd::OnRButtonDown(nFlags, point);
+}
+
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	m_LButtonDown = false;
-	m_StartPoint = point;
+	m_EndPoint = point;
 
 	CWnd::OnLButtonUp(nFlags, point);
-}
-
-
-void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	m_LButtonDown = true;
-	m_StartPoint = point;
-
-	CWnd::OnRButtonDown(nFlags, point);
 }
 
 
 void CChildView::OnRButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	m_LButtonDown = false;
-	m_StartPoint = point;
+	m_RButtonDown = false;
+	m_EndPoint = point;
 
 	CWnd::OnRButtonUp(nFlags, point);
 }
