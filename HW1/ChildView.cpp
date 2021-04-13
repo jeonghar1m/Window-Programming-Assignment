@@ -6,11 +6,14 @@
 #include "framework.h"
 #include "HW1.h"
 #include "ChildView.h"
+#include "Rectangle.h"
+#include "Circle.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+int shapeCnt = 0;
 
 // CChildView
 
@@ -34,8 +37,6 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
-
-
 
 // CChildView 메시지 처리기
 
@@ -72,10 +73,12 @@ void CChildView::OnPaint()
 
 	if (m_LButtonDown)
 	{
-		bitmap.LoadBitmap(IDB_BITMAP1);
+		bitmap.LoadBitmap(IDB_BITMAP1);	// Error: 솔루션 구성을 Release가 아닌 Debug로 설정하면 프로그램이 터져버리는 문제 발생.
 		CBrush brush(&bitmap);
 		memDC.SelectObject(&brush);
 		memDC.Rectangle(m_StartPoint.x, m_StartPoint.y, m_EndPoint.x, m_EndPoint.y);
+		//memDC.Rectangle(m_rectList[shapeCnt].startX, m_rectList[shapeCnt].startY, m_rectList[shapeCnt].endX, m_rectList[shapeCnt].endY);
+		shapeCnt++;
 	}
 
 	if (m_RButtonDown)
@@ -95,8 +98,15 @@ void CChildView::OnPaint()
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CPaintDC dc(this);
+	CDC memDC;
+	memDC.CreateCompatibleDC(&dc);
+
+
 	m_LButtonDown = true;
 	m_StartPoint = point;
+
+	m_rectList[shapeCnt] = CRectangle(point);
 
 	CWnd::OnLButtonDown(nFlags, point);
 }
@@ -105,8 +115,10 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
 	m_RButtonDown = true;
 	m_StartPoint = point;
+
 
 	CWnd::OnRButtonDown(nFlags, point);
 }
@@ -116,6 +128,8 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	m_LButtonDown = false;
 	m_EndPoint = point;
+
+	m_rectList[shapeCnt] = CRectangle(point);
 
 	CWnd::OnLButtonUp(nFlags, point);
 }
@@ -138,7 +152,18 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		m_EndPoint = point;
 		Invalidate();
-	}
+	}	
+	//if (m_LButtonDown)
+	//{
+	//	m_rectList[shapeCnt] = point;
+	//	Invalidate();
+	//}
+
+	//if (m_RButtonDown)
+	//{
+	//	m_EndPoint = point;
+	//	Invalidate();
+	//}
 
 	CWnd::OnMouseMove(nFlags, point);
 }

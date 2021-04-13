@@ -5,12 +5,17 @@
 
 #pragma once
 
+#include "Rectangle.h"
+#include "Circle.h"
+
+#define MAX_SHAPE_CNT 1000
 
 // CChildView 창
 
 class CChildView : public CWnd
 {
 // 생성입니다.
+
 public:
 	CChildView();
 
@@ -21,6 +26,11 @@ public:
 
 	CPoint m_StartPoint;
 	CPoint m_EndPoint;
+
+	CRectangle m_rectList[MAX_SHAPE_CNT];
+	CCircle m_cirList[MAX_SHAPE_CNT];
+
+	int m_click_cnt = 0;	// 클릭 개수
 
 // 작업입니다.
 public:
