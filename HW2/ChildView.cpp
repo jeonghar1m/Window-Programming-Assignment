@@ -17,6 +17,7 @@
 CChildView::CChildView()
 {
 	m_RButton = false;
+	m_color = RGB(0, 0, 0);
 }
 
 CChildView::~CChildView()
@@ -30,6 +31,14 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_RBUTTONDOWN()
 	ON_WM_RBUTTONUP()
 	ON_WM_ERASEBKGND()
+	ON_COMMAND(ID_COLOR_RED, &CChildView::OnColorRed)
+	ON_COMMAND(ID_COLOR_GREEN, &CChildView::OnColorGreen)
+	ON_COMMAND(ID_COLOR_BLUE, &CChildView::OnColorBlue)
+	ON_COMMAND(ID_COLOR_BLACK, &CChildView::OnColorBlack)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_RED, &CChildView::OnUpdateColorRed)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_GREEN, &CChildView::OnUpdateColorGreen)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_BLUE, &CChildView::OnUpdateColorBlue)
+	ON_UPDATE_COMMAND_UI(ID_COLOR_BLACK, &CChildView::OnUpdateColorBlack)
 END_MESSAGE_MAP()
 
 
@@ -53,14 +62,14 @@ void CChildView::OnPaint()
 {
 	CPaintDC dc(this);
 
-	dc.SelectStockObject(BLACK_BRUSH);
+	CBrush brush(m_color);
+	dc.SelectObject(&brush);
 
 	POSITION curPos = m_pt.GetHeadPosition();
 	while (curPos != NULL)
 	{
 		CPoint pt = m_pt.GetAt(curPos);
-		//CPoint pt = m_pt.GetNext(curPos);
-		//dc.SetPixelV(pt, RGB(0, 0, 0));
+
 		dc.Rectangle(pt.x, pt.y, pt.x + 10, pt.y + 10);
 		m_pt.GetNext(curPos);
 	}
@@ -113,8 +122,6 @@ void CChildView::OnRButtonUp(UINT nFlags, CPoint point)
 	{
 		POSITION svPos = curPos;
 
-		//CPoint pt = m_pt.GetAt(curPos);
-
 		CPoint pt = m_pt.GetNext(curPos);
 
 		if (m_st.x < pt.x && pt.x < m_ed.x && m_st.y < pt.y && pt.y < m_ed.y)
@@ -130,7 +137,65 @@ void CChildView::OnRButtonUp(UINT nFlags, CPoint point)
 BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
 	return CWnd::OnEraseBkgnd(pDC);
-	//return true;
+}
+
+
+void CChildView::OnColorRed()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_color = RGB(255, 0, 0);
+	Invalidate();
+}
+
+
+void CChildView::OnColorGreen()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_color = RGB(0, 255, 0);
+	Invalidate();
+}
+
+
+void CChildView::OnColorBlue()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_color = RGB(0, 0, 255);
+	Invalidate();
+}
+
+
+void CChildView::OnColorBlack()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_color = RGB(0, 0, 0);
+	Invalidate();
+}
+
+
+void CChildView::OnUpdateColorRed(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_color == RGB(255, 0, 0));
+}
+
+
+void CChildView::OnUpdateColorGreen(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_color == RGB(0, 255, 0));
+}
+
+
+void CChildView::OnUpdateColorBlue(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_color == RGB(0, 0, 255));
+}
+
+
+void CChildView::OnUpdateColorBlack(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_color == RGB(0, 0, 0));
 }

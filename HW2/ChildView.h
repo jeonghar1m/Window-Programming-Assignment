@@ -22,6 +22,8 @@ public:
 	CPoint m_ed;
 	bool m_RButton;
 
+	COLORREF m_color;
+
 // 작업입니다.
 public:
 
@@ -42,5 +44,13 @@ public:
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnColorRed();
+	afx_msg void OnColorGreen();
+	afx_msg void OnColorBlue();
+	afx_msg void OnColorBlack();
+	afx_msg void OnUpdateColorRed(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateColorGreen(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateColorBlue(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateColorBlack(CCmdUI* pCmdUI);
 };
 
