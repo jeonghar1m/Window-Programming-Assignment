@@ -3,6 +3,7 @@
 // HW2.rc에서 사용
 //
 #define IDD_ABOUTBOX				100
+#define IDP_OLE_INIT_FAILED			100
 #define IDR_MAINFRAME				128
 #define IDR_HW2TYPE				130
 

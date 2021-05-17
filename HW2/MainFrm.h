@@ -33,7 +33,7 @@ public:
 #endif
 
 protected:  // 컨트롤 모음이 포함된 멤버입니다.
-	CStatusBar        m_wndStatusBar;
+	CToolBar          m_wndToolBar;
 	CChildView    m_wndView;
 
 // 생성된 메시지 맵 함수

@@ -21,14 +21,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
 
-static UINT indicators[] =
-{
-	ID_SEPARATOR,           // 상태 줄 표시기
-	ID_INDICATOR_CAPS,
-	ID_INDICATOR_NUM,
-	ID_INDICATOR_SCRL,
-};
-
 // CMainFrame 생성/소멸
 
 CMainFrame::CMainFrame() noexcept
@@ -52,12 +44,18 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	if (!m_wndStatusBar.Create(this))
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
-		TRACE0("상태 표시줄을 만들지 못했습니다.\n");
+		TRACE0("도구 모음을 만들지 못했습니다.\n");
 		return -1;      // 만들지 못했습니다.
 	}
-	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
+
+	// TODO: 도구 모음을 도킹할 수 없게 하려면 이 세 줄을 삭제하십시오.
+	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	EnableDocking(CBRS_ALIGN_ANY);
+	DockControlBar(&m_wndToolBar);
+
 
 	return 0;
 }
@@ -68,6 +66,9 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서
 	//  Window 클래스 또는 스타일을 수정합니다.
+
+	cs.style = WS_OVERLAPPED | WS_CAPTION | FWS_ADDTOTITLE
+		 | WS_SYSMENU;
 
 	cs.dwExStyle &= ~WS_EX_CLIENTEDGE;
 	cs.lpszClass = AfxRegisterWndClass(0);

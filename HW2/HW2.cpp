@@ -66,6 +66,15 @@ BOOL CHW2App::InitInstance()
 	CWinApp::InitInstance();
 
 
+	// OLE 라이브러리를 초기화합니다.
+	if (!AfxOleInit())
+	{
+		AfxMessageBox(IDP_OLE_INIT_FAILED);
+		return FALSE;
+	}
+
+	AfxEnableControlContainer();
+
 	EnableTaskbarInteraction(FALSE);
 
 	// RichEdit 컨트롤을 사용하려면 AfxInitRichEdit2()가 있어야 합니다.
@@ -105,6 +114,8 @@ BOOL CHW2App::InitInstance()
 int CHW2App::ExitInstance()
 {
 	//TODO: 추가한 추가 리소스를 처리합니다.
+	AfxOleTerm(FALSE);
+
 	return CWinApp::ExitInstance();
 }
 
@@ -151,3 +162,6 @@ void CHW2App::OnAppAbout()
 }
 
 // CHW2App 메시지 처리기
+
+
+
