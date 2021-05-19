@@ -10,8 +10,9 @@
 #define ID_COLOR_GREEN                  32772
 #define ID_COLOR_BLUE                   32773
 #define ID_COLOR_BLACK                  32774
-#define ID_BUTTON32776                  32776
+#define ID_SELECT_RECTANGLE             32776
 #define ID_BUTTON32778                  32778
+#define ID_SELECT_CIRCLE                32778
 
 // Next default values for new objects
 // 

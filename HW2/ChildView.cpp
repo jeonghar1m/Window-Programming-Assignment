@@ -18,6 +18,7 @@ CChildView::CChildView()
 {
 	m_RButton = false;
 	m_color = RGB(0, 0, 0);
+	m_shape = 0;
 }
 
 CChildView::~CChildView()
@@ -39,6 +40,11 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_GREEN, &CChildView::OnUpdateColorGreen)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_BLUE, &CChildView::OnUpdateColorBlue)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_BLACK, &CChildView::OnUpdateColorBlack)
+	ON_WM_CONTEXTMENU()
+	ON_COMMAND(ID_SELECT_CIRCLE, &CChildView::OnSelectCircle)
+	ON_COMMAND(ID_SELECT_RECTANGLE, &CChildView::OnSelectRectangle)
+	ON_UPDATE_COMMAND_UI(ID_SELECT_CIRCLE, &CChildView::OnUpdateSelectCircle)
+	ON_UPDATE_COMMAND_UI(ID_SELECT_RECTANGLE, &CChildView::OnUpdateSelectRectangle)
 END_MESSAGE_MAP()
 
 
@@ -70,7 +76,11 @@ void CChildView::OnPaint()
 	{
 		CPoint pt = m_pt.GetAt(curPos);
 
-		dc.Rectangle(pt.x, pt.y, pt.x + 10, pt.y + 10);
+		if (m_shape == 0)
+			dc.Rectangle(pt.x, pt.y, pt.x + 10, pt.y + 10);
+		else if (m_shape == 1)
+			dc.Ellipse(pt.x, pt.y, pt.x + 10, pt.y + 10);
+
 		m_pt.GetNext(curPos);
 	}
 
@@ -198,4 +208,46 @@ void CChildView::OnUpdateColorBlack(CCmdUI* pCmdUI)
 {
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->SetCheck(m_color == RGB(0, 0, 0));
+}
+
+
+void CChildView::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	CWnd* pMainFrm = AfxGetMainWnd();
+	CMenu* pMainMenu = pMainFrm->GetMenu();
+	CMenu* pMenu = pMainMenu->GetSubMenu(4);
+	pMenu->TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, pMainFrm);
+}
+
+
+void CChildView::OnSelectCircle()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_shape = 1;
+
+	Invalidate();
+}
+
+
+void CChildView::OnSelectRectangle()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_shape = 0;
+
+	Invalidate();
+}
+
+
+void CChildView::OnUpdateSelectCircle(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_shape == 1);
+}
+
+
+void CChildView::OnUpdateSelectRectangle(CCmdUI* pCmdUI)
+{
+	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
+	pCmdUI->SetCheck(m_shape == 0);
 }

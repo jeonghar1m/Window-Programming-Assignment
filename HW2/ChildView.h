@@ -22,6 +22,8 @@ public:
 	CPoint m_ed;
 	bool m_RButton;
 
+	int m_shape;	// 0: Rect, 1: Circle
+
 	COLORREF m_color;
 
 // 작업입니다.
@@ -52,5 +54,10 @@ public:
 	afx_msg void OnUpdateColorGreen(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateColorBlue(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateColorBlack(CCmdUI* pCmdUI);
+	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
+	afx_msg void OnSelectCircle();
+	afx_msg void OnSelectRectangle();
+	afx_msg void OnUpdateSelectCircle(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateSelectRectangle(CCmdUI* pCmdUI);
 };
 
