@@ -18,7 +18,7 @@ CChildView::CChildView()
 {
 	m_RButton = false;
 	m_color = RGB(0, 0, 0);
-	m_shape = 0;
+	m_shape = 0;	// 0: Rect, 1: Circle
 	m_shapeCnt = 0;
 }
 
