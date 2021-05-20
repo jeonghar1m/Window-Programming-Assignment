@@ -19,6 +19,7 @@ CChildView::CChildView()
 	m_RButton = false;
 	m_color = RGB(0, 0, 0);
 	m_shape = 0;
+	m_shapeCnt = 0;
 }
 
 CChildView::~CChildView()
@@ -40,7 +41,6 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_GREEN, &CChildView::OnUpdateColorGreen)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_BLUE, &CChildView::OnUpdateColorBlue)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_BLACK, &CChildView::OnUpdateColorBlack)
-	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_SELECT_CIRCLE, &CChildView::OnSelectCircle)
 	ON_COMMAND(ID_SELECT_RECTANGLE, &CChildView::OnSelectRectangle)
 	ON_UPDATE_COMMAND_UI(ID_SELECT_CIRCLE, &CChildView::OnUpdateSelectCircle)
@@ -71,6 +71,8 @@ void CChildView::OnPaint()
 	CBrush brush(m_color);
 	dc.SelectObject(&brush);
 
+	CString str;
+
 	POSITION curPos = m_pt.GetHeadPosition();
 	while (curPos != NULL)
 	{
@@ -83,6 +85,9 @@ void CChildView::OnPaint()
 
 		m_pt.GetNext(curPos);
 	}
+
+	str.Format(_T("Number of objects: %d"), m_shapeCnt);
+	dc.TextOut(100, 100, str);
 
 	dc.SelectStockObject(DC_BRUSH);
 	if (m_RButton)
@@ -97,6 +102,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	if (nFlags & MK_LBUTTON)
 	{
 		m_pt.AddTail(point);
+		m_shapeCnt++;
 		Invalidate();
 	}
 	else if (nFlags & MK_RBUTTON)
@@ -209,17 +215,6 @@ void CChildView::OnUpdateColorBlack(CCmdUI* pCmdUI)
 	// TODO: 여기에 명령 업데이트 UI 처리기 코드를 추가합니다.
 	pCmdUI->SetCheck(m_color == RGB(0, 0, 0));
 }
-
-
-void CChildView::OnContextMenu(CWnd* pWnd, CPoint point)
-{
-	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-	CWnd* pMainFrm = AfxGetMainWnd();
-	CMenu* pMainMenu = pMainFrm->GetMenu();
-	CMenu* pMenu = pMainMenu->GetSubMenu(4);
-	pMenu->TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, pMainFrm);
-}
-
 
 void CChildView::OnSelectCircle()
 {
