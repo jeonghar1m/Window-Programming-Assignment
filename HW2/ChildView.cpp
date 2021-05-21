@@ -129,7 +129,6 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
 	m_st = point;
 	m_ed = point;
 	m_RButton = true;
@@ -154,6 +153,7 @@ void CChildView::OnRButtonUp(UINT nFlags, CPoint point)
 
 		if (m_st.x < pt.x && pt.x < m_ed.x && m_st.y < pt.y && pt.y < m_ed.y)
 			m_pt.RemoveAt(svPos);
+
 	}
 
 	Invalidate();
@@ -164,11 +164,7 @@ void CChildView::OnRButtonUp(UINT nFlags, CPoint point)
 
 BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	if(m_RButton)
-		return CWnd::OnEraseBkgnd(pDC);
-	else
-		return true;
+	return true;
 }
 
 
