@@ -68,8 +68,20 @@ void CChildView::OnPaint()
 {
 	CPaintDC dc(this);
 
+	CRect rect;
+	GetClientRect(&rect);
+
+	CDC memDC;
+	memDC.CreateCompatibleDC(&dc);
+
+	CBitmap bitmap;
+	bitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
+	memDC.SelectObject(&bitmap);
+
+	memDC.Rectangle(-10, -10, rect.Width() + 10, rect.Height() + 10);	//하얀색 배경 화면 출력
+
 	CBrush brush(m_color);
-	dc.SelectObject(&brush);
+	memDC.SelectObject(&brush);
 
 	CString str;
 
@@ -79,7 +91,7 @@ void CChildView::OnPaint()
 		CPoint pt = m_pt.GetAt(curPos);
 
 		if (m_shape == 0)
-			dc.Rectangle(pt.x, pt.y, pt.x + 10, pt.y + 10);
+			memDC.Rectangle(pt.x, pt.y, pt.x + 10, pt.y + 10);	// memDC로 했을 때 도형이 출력 안되는 문제 발생.
 		else if (m_shape == 1)
 			dc.Ellipse(pt.x, pt.y, pt.x + 10, pt.y + 10);
 
@@ -153,7 +165,10 @@ void CChildView::OnRButtonUp(UINT nFlags, CPoint point)
 BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	return CWnd::OnEraseBkgnd(pDC);
+	if(m_RButton)
+		return CWnd::OnEraseBkgnd(pDC);
+	else
+		return true;
 }
 
 
