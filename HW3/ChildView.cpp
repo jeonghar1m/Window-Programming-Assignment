@@ -133,8 +133,8 @@ void CChildView::OnPaint()
 				linePoint = m_shape.GetAt(pt2);
 			}
 
-			hMove = (linePoint.pos.x - shapePoint.pos.x) / 20;
-			vMove = (linePoint.pos.x - shapePoint.pos.y) / 20;
+			hMove = (linePoint.pos.x - shapePoint.pos.x);
+			vMove = (linePoint.pos.x - shapePoint.pos.y);
 			memDC.SelectObject(&solidPen);
 
 			if(m_LButtonDown)
@@ -142,12 +142,6 @@ void CChildView::OnPaint()
 			if(m_RButtonDown)
 				memDC.Ellipse(shapePoint.pos.x - 40 + hMove * y, shapePoint.pos.y - 40 + vMove * y, shapePoint.pos.x + 40 + hMove * y, shapePoint.pos.y + 40 + vMove * y);
 
-			if (y > 20)
-			{
-				x++;
-				y = 1;
-				scrollplayNum++;
-			}
 			m_HBar.SetScrollPos(scrollplayNum);
 		}
 
